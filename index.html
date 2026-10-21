@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Play</title>
+<style>
+body{margin:0;background:#101010;color:white;font-family:Arial;text-align:center}
+header{padding:20px;color:#f5ca69}
+.card{background:#222;margin:16px auto;padding:20px;border-radius:15px;max-width:340px}
+button{background:#e8bd61;border:0;border-radius:8px;padding:12px;margin:5px;font-weight:bold}
+#points{color:#ffd36a}
+</style>
+</head>
+<body>
+<header><h1>👑 ROYAL PLAY</h1><p>CASINO GAME DEMO</p></header>
+<div class="card">Điểm ảo của bạn<h2 id="points">1000</h2></div>
+<div class="card">
+<h2>🎲 Xúc xắc</h2>
+<p>Chọn dự đoán tổng điểm</p>
+<button onclick="play('small')">4–10</button>
+<button onclick="play('big')">11–17</button>
+<p id="result">Sẵn sàng chơi!</p>
+</div>
+<div class="card">
+<h2>🎰 Slot demo</h2>
+<p id="slots">🍒 | ⭐ | 🍋</p>
+<button onclick="spin()">Quay thử</button>
+<p id="slotresult"></p>
+</div>
+<div class="card">
+<h2>🎡 Vòng quay</h2>
+<button onclick="wheel()">Quay vòng</button>
+<p id="wheelresult"></p>
+</div>
+<script>
+let points=1000;
+function update(){document.getElementById('points').textContent=points}
+function play(choice){
+if(points<10)return;
+points-=10;
+let a=1+Math.floor(Math.random()*6);
+let b=1+Math.floor(Math.random()*6);
+let c=1+Math.floor(Math.random()*6);
+let sum=a+b+c;
+let win=choice===(sum<=10?'small':'big');
+if(win)points+=20;
+document.getElementById('result').textContent=
+`${a}+${b}+${c}=${sum}. `+(win?'Bạn nhận 20 điểm!':'Lượt này không trúng.');
+update();
+}
+function spin(){
+if(points<10)return;
+points-=10;
+let s=['🍒','⭐','🍋','💎','🔔'];
+let a=Array.from({length:3},()=>s[Math.floor(Math.random()*s.length)]);
+document.getElementById('slots').textContent=a.join(' | ');
+let win=a[0]===a[1]&&a[1]===a[2];
+if(win)points+=50;
+document.getElementById('slotresult').textContent=win?'Ba biểu tượng giống nhau! +50 điểm.':'Quay xong!';
+update();
+}
+function wheel(){
+if(points<10)return;
+points-=10;
+let reward=[0,5,10,20,50][Math.floor(Math.random()*5)];
+points+=reward;
+document.getElementById('wheelresult').textContent='Bạn nhận '+reward+' điểm ảo!';
+update();
+}
+</script>
+</body>
+</html>
